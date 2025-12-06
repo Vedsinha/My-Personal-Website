@@ -1,0 +1,753 @@
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  background-color: #000;
+}
+
+/* --- HERO SECTION WRAPPER --- */
+.hero-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  background-color: #ffffff;
+  transition: background-color 0.8s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* --- PRODUCT CONTENT SECTION --- */
+.product-section {
+  position: relative;
+  z-index: 10;
+  margin-top: 100vh;
+  min-height: 100vh;
+  background-color: #050505;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 1rem;
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
+  color: white;
+  overflow: hidden;
+}
+
+.product-section::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(200, 100, 50, 0.15) 0%, rgba(0, 0, 0, 0) 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- SEARCH BAR STYLES --- */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: #3b82f6;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+.cursor.typing {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.search-btn {
+  transition: all 0.2s ease;
+}
+
+.search-btn:active {
+  transform: scale(0.95);
+}
+
+.search-container {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* --- SHARED SHOWCASE STYLES --- */
+.search-ui {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  position: relative;
+  z-index: 50;
+}
+
+.showcase-ui,
+.iphone-ui,
+.aqi-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1.5s ease;
+}
+
+.aqi-ui {
+  z-index: 40;
+}
+
+/* --- SAMSUNG ANIMATION STYLES --- */
+.showcase-ui {
+  font-family: 'Roboto', sans-serif;
+}
+
+.scene {
+  width: 300px;
+  height: 600px;
+  perspective: 1200px;
+  position: relative;
+}
+
+.camera-rig {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.phone-3d {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  background: #000;
+  border: 1px solid #222;
+}
+
+.face.front {
+  width: 300px;
+  height: 600px;
+  transform: translateZ(15px);
+  border-radius: 35px;
+  background: #000;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.face.back {
+  width: 300px;
+  height: 600px;
+  transform: translateZ(-15px) rotateY(180deg);
+  border-radius: 35px;
+  background: linear-gradient(135deg, #111, #333);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.face.back::after {
+  content: 'SAMSUNG';
+  transform: rotate(90deg);
+  letter-spacing: 2px;
+  opacity: 0.3;
+}
+
+.face.right {
+  width: 30px;
+  height: 560px;
+  top: 20px;
+  right: -15px;
+  transform: rotateY(90deg);
+  background: linear-gradient(to bottom, #111, #444, #111);
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.face.left {
+  width: 30px;
+  height: 560px;
+  top: 20px;
+  left: -15px;
+  transform: rotateY(-90deg);
+  background: #1a1a1a;
+}
+
+.face.top {
+  width: 260px;
+  height: 30px;
+  top: -15px;
+  left: 20px;
+  transform: rotateX(90deg);
+  background: #1a1a1a;
+}
+
+.face.bottom {
+  width: 260px;
+  height: 30px;
+  bottom: -15px;
+  left: 20px;
+  transform: rotateX(-90deg);
+  background: #1a1a1a;
+}
+
+.screen-content {
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop') no-repeat center center/cover;
+  position: relative;
+}
+
+.screen-glass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0) 50%);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.edge-shine-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 200, 255, 0.8) 50%, transparent 100%);
+  opacity: 0;
+  filter: blur(8px);
+  z-index: 30;
+  transform: translateY(-100%);
+}
+
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  padding: 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-size: 11px;
+  z-index: 30;
+  box-sizing: border-box;
+}
+
+.notification-container {
+  position: absolute;
+  top: -120px;
+  left: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 40;
+  transition: top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: #5f6368;
+}
+
+.app-info {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.app-icon-sm {
+  color: #1a73e8;
+}
+
+.notification-content {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+.sender-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #202124;
+  margin-bottom: 2px;
+}
+
+.message-preview {
+  font-size: 13px;
+  color: #202124;
+  line-height: 1.3;
+}
+
+.link-highlight {
+  color: #1a73e8;
+  font-weight: 500;
+}
+
+@keyframes scanCamera {
+  0% { transform: scale(2.5) translateY(150px) translateX(-50px); }
+  100% { transform: scale(2.5) translateY(-150px) translateX(-50px); }
+}
+
+@keyframes shineMove {
+  0% { transform: translateY(-120%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+
+@keyframes spinPhone {
+  0% { transform: rotateY(-70deg) rotateX(10deg); }
+  100% { transform: rotateY(2880deg) rotateX(0deg); }
+}
+
+.anim-scanning-rig {
+  animation: scanCamera 3s linear forwards;
+}
+
+.anim-scanning-shine {
+  animation: shineMove 3s ease-in-out forwards;
+  opacity: 1;
+}
+
+.anim-scanning-phone-pos {
+  transform: rotateY(-70deg) rotateX(10deg);
+}
+
+.anim-zoom-out {
+  transform: scale(0.9) translateY(0) translateX(0) !important;
+  transition: transform 1.5s ease-in-out;
+}
+
+.anim-spin {
+  animation: spinPhone 4s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+}
+
+/* --- IPHONE 17 ANIMATION STYLES --- */
+.iphone-ui {
+  perspective: 1000px;
+}
+
+.iphone-chassis {
+  width: 320px;
+  height: 680px;
+  background: #1a1a1a;
+  border-radius: 55px;
+  position: relative;
+  box-shadow: 0 0 0 2px #3a3a3a, 0 0 0 6px #52525b, 0 20px 50px -10px rgba(0, 0, 0, 0.8), -15px 15px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+
+.iphone-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 52px;
+  position: relative;
+  overflow: hidden;
+  border: 8px solid #000;
+  box-sizing: border-box;
+  background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  transition: filter 1s ease;
+}
+
+.screen-dimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(0px);
+  transition: all 0.8s ease;
+  z-index: 10;
+}
+
+.iphone-screen.active .screen-dimmer {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(0px);
+}
+
+.dynamic-island {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 30px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 50;
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 0;
+}
+
+.dynamic-island.expanded {
+  width: 290px;
+  height: 160px;
+  border-radius: 35px;
+  top: 15px;
+  padding: 16px;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.island-content {
+  opacity: 0;
+  width: 100%;
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+  display: none;
+  flex-direction: column;
+}
+
+.dynamic-island.expanded .island-content {
+  opacity: 1;
+  transform: scale(1);
+  display: flex;
+  transition-delay: 0.1s;
+}
+
+.camera-cutout {
+  width: 80px;
+  height: 30px;
+  background: #000;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 20px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.dynamic-island.expanded .camera-cutout {
+  opacity: 0;
+}
+
+.time-widget {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 5rem;
+  font-weight: 500;
+  z-index: 5;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
+}
+
+.date-widget {
+  position: absolute;
+  top: 60px;
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  font-weight: 500;
+  z-index: 5;
+  transition: all 0.5s ease;
+}
+
+.dynamic-island.expanded ~ .time-widget {
+  opacity: 0.3;
+  filter: blur(5px);
+  transform: scale(0.95);
+}
+
+.dynamic-island.expanded ~ .date-widget {
+  opacity: 0.3;
+  filter: blur(5px);
+}
+
+.btn-side {
+  position: absolute;
+  background: #2a2a2a;
+  border-radius: 4px 0 0 4px;
+  left: -8px;
+  box-shadow: inset -1px 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-mute {
+  top: 100px;
+  width: 4px;
+  height: 26px;
+}
+
+.btn-vol-up {
+  top: 150px;
+  width: 4px;
+  height: 50px;
+}
+
+.btn-vol-down {
+  top: 215px;
+  width: 4px;
+  height: 50px;
+}
+
+.btn-power {
+  right: -8px;
+  left: auto;
+  top: 160px;
+  width: 4px;
+  height: 80px;
+  border-radius: 0 4px 4px 0;
+  box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 52px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0) 100%);
+  z-index: 60;
+  pointer-events: none;
+}
+
+.app-icon {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+@keyframes pulse-btn {
+  0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+  70% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+.cta-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  animation: pulse-btn 2s infinite;
+  transition: transform 0.1s;
+}
+
+.cta-btn:active {
+  transform: scale(0.95);
+}
+
+.home-bar {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  z-index: 20;
+}
+
+.lock-btn {
+  position: absolute;
+  bottom: 45px;
+  width: 50px;
+  height: 50px;
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  z-index: 20;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lock-btn:hover {
+  background: rgba(80, 80, 80, 0.8);
+  transform: scale(1.05);
+}
+
+.lock-btn:active {
+  background: rgba(255, 255, 255, 1);
+  color: black;
+}
+
+.lock-btn svg {
+  fill: white;
+  width: 20px;
+  height: 20px;
+  transition: fill 0.2s;
+}
+
+.lock-btn:active svg {
+  fill: black;
+}
+
+.lock-btn-left {
+  left: 46px;
+}
+
+.lock-btn-right {
+  right: 46px;
+}
+
+/* Scroll Hint Animation */
+.scroll-hint {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+/* --- GLOSSY CARD STYLES --- */
+.glossy-card {
+  background: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.5);
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.glossy-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(200, 120, 50, 0.08), transparent 50%);
+  pointer-events: none;
+}
+
+.dark-input {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.dark-input:focus {
+  border-color: rgba(200, 120, 50, 0.5);
+  background: rgba(0, 0, 0, 0.6);
+  outline: none;
+  box-shadow: 0 0 15px rgba(200, 120, 50, 0.1);
+}
+
+.dark-btn {
+  background: rgba(15, 15, 15, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ccc;
+  transition: all 0.3s ease;
+}
+
+.dark-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.social-link {
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.3s;
+}
+
+.social-link:hover {
+  color: white;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Active states */
+.showcase-ui.active,
+.iphone-ui.active,
+.aqi-ui.active {
+  opacity: 1;
+  pointer-events: auto;
+}
