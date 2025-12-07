@@ -23,14 +23,14 @@
               </div>
               <div class="flex flex-col">
                 <div class="flex items-center gap-1">
-                  <span class="text-white font-bold text-sm tracking-wide">THOOK.AI</span>
+                  <span class="text-white font-bold text-sm tracking-wide">Motion Editor</span>
                   <span class="text-gray-400 text-xs">now</span>
                 </div>
                 <span class="text-white text-xs font-medium">Platform Launch</span>
               </div>
             </div>
             <div class="text-gray-200 text-sm leading-tight mb-3 pl-1">
-              thook.ai is coming. Join the waitlist for beta access and max discount.
+              Motion Editor is coming. Join the waitlist for beta access and max discount.
             </div>
             <div class="flex gap-2 mt-auto">
               <button class="cta-btn w-full" @click="pulseSuccess">

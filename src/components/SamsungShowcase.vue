@@ -25,9 +25,9 @@
                 <div class="notification-content">
                   <div class="avatar">V</div>
                   <div>
-                    <div class="sender-name">Ved Sinha</div>
+                    <div class="sender-name">Motion Editor</div>
                     <div class="message-preview">
-                      <span class="link-highlight">thook.ai</span> is coming, signup now
+                      <span class="link-highlight">Motion Editor</span> is coming, join wait list for early access
                     </div>
                   </div>
                 </div>
