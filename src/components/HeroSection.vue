@@ -2,6 +2,9 @@
   <div 
     class="hero-section" 
     :style="{ backgroundColor: heroBackground }"
+    @wheel="handleScroll"
+    @touchstart="handleTouchStart"
+    @touchmove="handleTouchMove"
   >
     <!-- PHASE 1: SEARCH UI -->
     <SearchUI 
@@ -33,6 +36,15 @@
       :start-animation="aqiAnimating"
       @animation-complete="onAQIComplete"
     />
+
+    <!-- Skip Button - Always visible -->
+    <button 
+      v-if="!skipped"
+      @click="skipToProduct"
+      class="skip-btn"
+    >
+      Skip <i class="fas fa-chevron-down ml-1"></i>
+    </button>
   </div>
 </template>
 
@@ -66,11 +78,47 @@ const aqiAnimating = ref(false)
 // Current phase tracking
 const currentPhase = ref('search-iphone') // search-iphone, iphone, search-samsung, samsung, search-aqi, aqi
 
+// Skip state
+const skipped = ref(false)
+let touchStartY = 0
+
 // Sleep utility
 const sleep = (ms) => new Promise(r => setTimeout(r, ms))
 
+// Skip to product section
+const skipToProduct = () => {
+  if (skipped.value) return
+  skipped.value = true
+  const productSection = document.getElementById('product-section')
+  if (productSection) {
+    productSection.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// Handle scroll (desktop)
+const handleScroll = (e) => {
+  if (e.deltaY > 30) {
+    skipToProduct()
+  }
+}
+
+// Handle touch (mobile)
+const handleTouchStart = (e) => {
+  touchStartY = e.touches[0].clientY
+}
+
+const handleTouchMove = (e) => {
+  const touchEndY = e.touches[0].clientY
+  const diff = touchStartY - touchEndY
+  if (diff > 50) { // Swipe up
+    skipToProduct()
+  }
+}
+
 // Phase 1: Search -> iPhone
 const onTypingComplete = async () => {
+  if (skipped.value) return
+  
   if (currentPhase.value === 'search-iphone') {
     searchActive.value = true
     await sleep(150)
@@ -106,6 +154,8 @@ const onTypingComplete = async () => {
 
 // Phase 2: iPhone complete -> Reset to Search for Samsung
 const onIPhoneComplete = async () => {
+  if (skipped.value) return
+  
   iphoneVisible.value = false
   iphoneAnimating.value = false
   
@@ -127,6 +177,8 @@ const onIPhoneComplete = async () => {
 
 // Phase 3: Samsung complete -> Reset to Search for AQI
 const onSamsungComplete = async () => {
+  if (skipped.value) return
+  
   samsungVisible.value = false
   samsungAnimating.value = false
   
@@ -148,10 +200,7 @@ const onSamsungComplete = async () => {
 
 // Phase 4: AQI complete -> Scroll to product section
 const onAQIComplete = () => {
-  const productSection = document.getElementById('product-section')
-  if (productSection) {
-    productSection.scrollIntoView({ behavior: 'smooth' })
-  }
+  skipToProduct()
 }
 
 // Start the animation sequence

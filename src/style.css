@@ -751,3 +751,47 @@ body {
   opacity: 1;
   pointer-events: auto;
 }
+
+/* Skip Button */
+.skip-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+  animation: bounce 2s infinite;
+}
+
+.skip-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateX(-50%) scale(1.05);
+}
+
+.skip-btn:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+/* Adjust skip button color for light backgrounds */
+.hero-section[style*="rgb(255, 255, 255)"] .skip-btn,
+.hero-section[style*="#ffffff"] .skip-btn {
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.hero-section[style*="rgb(255, 255, 255)"] .skip-btn:hover,
+.hero-section[style*="#ffffff"] .skip-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
