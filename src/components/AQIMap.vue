@@ -8,49 +8,54 @@
       <!-- Loading Spinner -->
       <div v-if="loading" class="absolute inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm">
         <div class="flex flex-col items-center justify-center h-full space-y-4">
-          <div class="w-12 h-12 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
-          <p class="text-slate-600 font-medium animate-pulse">Loading Full Map Data...</p>
+          <div class="w-10 h-10 sm:w-12 sm:h-12 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+          <p class="text-slate-600 font-medium animate-pulse text-sm sm:text-base">Loading Map...</p>
         </div>
       </div>
       
-      <!-- AQI Card -->
+      <!-- AQI Card - Mobile Optimized -->
       <div 
         v-if="currentInfo.visible && currentInfo.data"
-        class="absolute top-6 left-6 w-72 backdrop-blur-xl p-6 rounded-2xl shadow-2xl transform transition-all duration-200 ease-out z-20"
+        class="absolute top-3 left-3 sm:top-6 sm:left-6 w-44 sm:w-72 backdrop-blur-xl p-3 sm:p-6 rounded-xl sm:rounded-2xl shadow-2xl transform transition-all duration-200 ease-out z-20"
         :class="aqiCardClasses"
       >
-        <div class="flex justify-between items-start mb-2">
-          <h2 class="text-2xl font-bold text-slate-800">{{ currentInfo.name }}</h2>
-        </div>
-        <div class="flex items-baseline space-x-2 mt-2">
-          <span class="text-5xl font-extrabold" :class="aqiValueColor">
+        <h2 class="text-base sm:text-2xl font-bold text-slate-800 truncate">{{ currentInfo.name }}</h2>
+        <div class="flex items-baseline space-x-1 sm:space-x-2 mt-1 sm:mt-2">
+          <span class="text-3xl sm:text-5xl font-extrabold" :class="aqiValueColor">
             {{ currentInfo.data.value }}
           </span>
-          <span class="text-sm font-medium text-slate-500">AQI</span>
+          <span class="text-xs sm:text-sm font-medium text-slate-500">AQI</span>
         </div>
         <div 
-          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mt-3"
+          class="inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide mt-2 sm:mt-3"
           :class="aqiBadgeClasses"
         >
           {{ currentInfo.data.status }}
         </div>
       </div>
       
-      <!-- Header -->
-      <div v-if="!loading" class="absolute top-6 right-6 z-10 text-right">
-        <h1 class="text-2xl font-black text-slate-800 tracking-tight drop-shadow-sm bg-white/50 px-4 py-2 rounded-xl backdrop-blur-sm">
+      <!-- Header - Hidden on mobile -->
+      <div v-if="!loading" class="absolute top-3 right-3 sm:top-6 sm:right-6 z-10 text-right hidden sm:block">
+        <h1 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight drop-shadow-sm bg-white/50 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-sm">
           India AQI Watch
         </h1>
         <div class="flex items-center justify-end space-x-2 mt-1 px-4">
-          <p class="text-sm font-semibold text-slate-600 uppercase tracking-widest opacity-80">
+          <p class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-widest opacity-80">
             {{ statusMessage }}
           </p>
           <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
         </div>
       </div>
+
+      <!-- Mobile Header - Minimal -->
+      <div v-if="!loading" class="absolute top-3 right-3 z-10 sm:hidden">
+        <div class="bg-white/70 backdrop-blur-sm px-2 py-1 rounded-lg">
+          <span class="text-xs font-bold text-slate-700">AQI Map</span>
+        </div>
+      </div>
       
-      <!-- Legend -->
-      <div v-if="!loading" class="absolute bottom-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200 z-10 hidden sm:block">
+      <!-- Legend - Hidden on mobile -->
+      <div v-if="!loading" class="absolute bottom-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200 z-10 hidden lg:block">
         <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">AQI Index</h3>
         <div class="space-y-2">
           <div class="flex items-center space-x-3">
@@ -90,7 +95,8 @@ const props = defineProps({
 
 const emit = defineEmits(['animation-complete'])
 
-const AQI_DATA = {
+// Full data for desktop
+const AQI_DATA_FULL = {
   "Delhi": { value: 355, status: "Severe" },
   "Uttar Pradesh": { value: 315, status: "Severe" },
   "Haryana": { value: 290, status: "Poor" },
@@ -112,6 +118,22 @@ const AQI_DATA = {
   "Ladakh": { value: 90, status: "Satisfactory" },
   "Himachal Pradesh": { value: 95, status: "Satisfactory" }
 }
+
+// Reduced data for mobile (key states only)
+const AQI_DATA_MOBILE = {
+  "Delhi": { value: 355, status: "Severe" },
+  "Maharashtra": { value: 165, status: "Moderate" },
+  "Karnataka": { value: 65, status: "Satisfactory" },
+  "Kerala": { value: 45, status: "Good" },
+  "Rajasthan": { value: 140, status: "Moderate" },
+  "West Bengal": { value: 280, status: "Poor" }
+}
+
+// Check if mobile
+const isMobile = () => window.innerWidth < 768
+
+// Get appropriate data based on screen size
+const getAQIData = () => isMobile() ? AQI_DATA_MOBILE : AQI_DATA_FULL
 
 const COLORS = {
   ocean: "#cce3f3",
@@ -201,7 +223,9 @@ const initializeMap = async () => {
     svg.selectAll("*").remove()
     const g = svg.append("g")
 
-    const projection = d3.geoMercator().scale(width / 6.5).translate([width / 2, height / 1.5])
+    // Adjust scale for mobile
+    const scaleFactor = isMobile() ? 4.5 : 6.5
+    const projection = d3.geoMercator().scale(width / scaleFactor).translate([width / 2, height / 1.5])
     const path = d3.geoPath().projection(projection)
 
     const countries = topojson.feature(worldData, worldData.objects.countries)
@@ -268,7 +292,13 @@ const initializeMap = async () => {
     await sleep(125)
     statusMessage.value = 'Visualizing AQI Data...'
 
+    // Use appropriate data based on screen size
+    const AQI_DATA = getAQIData()
     const allDataKeys = Object.keys(AQI_DATA)
+    
+    // Faster timing on mobile
+    const zoomDuration = isMobile() ? 250 : 375
+    const pauseDuration = isMobile() ? 350 : 500
 
     for (const stateName of allDataKeys) {
       if (!isMounted) break
@@ -296,21 +326,21 @@ const initializeMap = async () => {
           glowColor = COLORS.glowGreen
         }
 
-        await zoomToBox(bounds, 375).end()
+        await zoomToBox(bounds, zoomDuration).end()
 
         const safeId = `state-${getSafeId(stateName)}`
         const stateSelection = g.select(`#${safeId}`)
 
         if (!stateSelection.empty()) {
           stateSelection.transition()
-            .duration(125)
+            .duration(100)
             .attr("fill", fillColor)
             .style("filter", `drop-shadow(0px 0px 10px ${glowColor})`)
           stateSelection.raise()
         }
 
         currentInfo.value = { name: stateName, data: aqiInfo, visible: true }
-        await sleep(500)
+        await sleep(pauseDuration)
         currentInfo.value = { ...currentInfo.value, visible: false }
       }
     }
