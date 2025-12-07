@@ -441,10 +441,10 @@ body {
 
 .dynamic-island.expanded {
   width: 290px;
-  height: 160px;
+  height: 190px;
   border-radius: 35px;
   top: 15px;
-  padding: 16px;
+  padding: 18px;
   background: rgba(20, 20, 20, 0.95);
   backdrop-filter: blur(20px);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);

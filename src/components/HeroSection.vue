@@ -50,7 +50,7 @@ const heroBackground = ref('#ffffff')
 const searchVisible = ref(true)
 const searchHidden = ref(false)
 const searchActive = ref(false)
-const currentSearchText = ref('Create iPhone 17 Notifications')
+const currentSearchText = ref('Create iPhone 17 Notification Showcase')
 const shouldStartTyping = ref(false)
 
 // Showcase visibility states
